@@ -524,7 +524,7 @@ impl Cpio {
             if !keep_verity {
                 if fstab {
                     eprintln!("Found fstab file [{}]", name);
-                    let len = patch_verity(entry.data.as_mut_slice());
+                    let len = patch_with_samsung_support(entry.data.as_mut_slice());
                     if len != entry.data.len() {
                         entry.data.resize(len, 0);
                     }

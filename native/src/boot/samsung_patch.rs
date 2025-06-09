@@ -1,4 +1,4 @@
-use base::{LoggedResult, MappedFile, MutBytesExt, Utf8CStr};
+use base::{LoggedResult, MappedFile, MutBytesExt, Utf8Cstr};
 
 // Samsung Galaxy S22+ (SM-S906B) specific patches for OneUI 8 and Exynos 2200
 
@@ -237,7 +237,7 @@ fn hex2byte(hex: &[u8]) -> Vec<u8> {
 /// Samsung-specific boot image validation
 pub fn validate_samsung_boot_image(buf: &[u8]) -> bool {
     // Check for Samsung boot image signatures
-    let samsung_signatures = [
+    let samsung_signatures: Vec<&[u8]> = vec![
         b"SAMSUNG",
         b"EXYNOS",
         b"SM-S906",
@@ -253,4 +253,3 @@ pub fn validate_samsung_boot_image(buf: &[u8]) -> bool {
     
     false
 }
-
