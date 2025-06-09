@@ -1,5 +1,4 @@
 use base::{LoggedResult, MappedFile, MutBytesExt, Utf8CStr};
-use crate::samsung_patch::{patch_samsung_s22_plus, validate_samsung_boot_image};
 
 // SAFETY: assert(buf.len() >= 1) && assert(len <= buf.len())
 macro_rules! match_patterns {
@@ -101,23 +100,6 @@ fn hex2byte(hex: &[u8]) -> Vec<u8> {
         v.push((h << 4) | l);
     }
     v
-}
-
-/// Enhanced patching function with Samsung Galaxy S22+ support
-pub fn patch_with_samsung_support(buf: &mut [u8]) -> usize {
-    let mut total_patched = 0;
-    
-    // Apply standard patches first
-    total_patched += patch_verity(buf);
-    total_patched += patch_encryption(buf);
-    
-    // Check if this is a Samsung device and apply Samsung-specific patches
-    if validate_samsung_boot_image(buf) {
-        eprintln!("Samsung boot image detected, applying Samsung-specific patches");
-        total_patched += patch_samsung_s22_plus(buf);
-    }
-    
-    total_patched
 }
 
 pub fn hexpatch(file: &[u8], from: &[u8], to: &[u8]) -> bool {

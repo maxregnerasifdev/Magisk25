@@ -16,7 +16,6 @@ mod compress;
 mod cpio;
 mod dtb;
 mod patch;
-mod samsung_patch;
 mod payload;
 // Suppress warnings in generated code
 #[allow(warnings)]

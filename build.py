@@ -16,14 +16,6 @@ import urllib.request
 from pathlib import Path
 from zipfile import ZipFile
 
-# Samsung Galaxy S22+ build configuration
-SAMSUNG_S22_PLUS_CONFIG = {
-    'device': 'SM-S906B',
-    'codename': 's906b',
-    'arch': 'arm64',
-    'oneui_version': '8.0',
-    'exynos_version': '2200'
-}
 
 def color_print(code, str):
     if no_color:
