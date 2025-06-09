@@ -27,7 +27,7 @@ use base::{
 use crate::check_env;
 use crate::compress::{get_decoder, get_encoder};
 use crate::ffi::FileFormat;
-use crate::patch::{patch_encryption, patch_verity, patch_with_samsung_support};
+use crate::patch::{patch_encryption, patch_verity};
 
 #[derive(FromArgs)]
 struct CpioCli {

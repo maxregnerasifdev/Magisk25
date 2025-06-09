@@ -278,13 +278,6 @@ pub fn daemon_entry() {
     }
     info!("* Device API level: {}", sdk_int);
 
-    // Samsung Galaxy S22+ detection and logging
-    if is_samsung_s22_plus() {
-        info!("* Samsung Galaxy S22+ detected");
-        info!("* OneUI version: {}", get_oneui_version());
-        info!("* Knox status: {}", if get_knox_status() { "Active" } else { "Inactive" });
-    }
-
     restore_tmpcon().log_ok();
 
     // Escape from cgroup
@@ -376,49 +369,4 @@ fn check_data() -> bool {
         };
     }
     false
-}
-
-// Samsung Galaxy S22+ detection and logging
-fn is_samsung_s22_plus() -> bool {
-    let device = get_prop(cstr!("ro.product.device"), false);
-    let model = get_prop(cstr!("ro.product.model"), false);
-    let brand = get_prop(cstr!("ro.product.brand"), false);
-    
-    // Check for Samsung Galaxy S22+ specific identifiers
-    (device.contains("s906") || device.contains("dm3q") || device.contains("b0q")) &&
-    (model.contains("SM-S906") || model.contains("Galaxy S22+")) &&
-    brand.to_lowercase().contains("samsung")
-}
-
-// OneUI version detection
-fn get_oneui_version() -> String {
-    // Check Samsung's OneUI version property
-    let oneui_ver = get_prop(cstr!("ro.build.version.oneui"), false);
-    if !oneui_ver.is_empty() {
-        return oneui_ver;
-    }
-    
-    // Fallback to Samsung version detection
-    let samsung_ver = get_prop(cstr!("ro.build.version.sem"), false);
-    if !samsung_ver.is_empty() {
-        return samsung_ver;
-    }
-    
-    // Check build fingerprint for OneUI indicators
-    let fingerprint = get_prop(cstr!("ro.build.fingerprint"), false);
-    if fingerprint.contains("OneUI") {
-        // Extract version from fingerprint if possible
-        return "detected".to_string();
-    }
-    
-    "unknown".to_string()
-}
-
-// Samsung Knox status detection
-fn get_knox_status() -> bool {
-    let knox_status = get_prop(cstr!("ro.boot.warranty_bit"), false);
-    let knox_api = get_prop(cstr!("ro.config.knox"), false);
-    
-    // Check if Knox is active (warranty bit 0 = intact, 1 = void)
-    knox_status == "0" && !knox_api.is_empty()
 }

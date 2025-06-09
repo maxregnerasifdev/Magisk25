@@ -15,10 +15,6 @@ using namespace std;
 #define SHA256_DIGEST_SIZE 32
 #define SHA_DIGEST_SIZE 20
 
-#define SAMSUNG_BOOT_MAGIC "SAMSUNG"
-#define EXYNOS_BOOT_MAGIC "EXYNOS"
-#define ONEUI_BOOT_MAGIC "OneUI"
-
 static void decompress(FileFormat type, int fd, const void *in, size_t size) {
     decompress_bytes(type, byte_view { in, size }, fd);
 }
